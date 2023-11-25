@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mi agenda</title>
+	<style type="text/css">
+		.formulario{
+			display: flex;
+			justify-content: flex-start;
+			flex-direction: column;
+			gap: 15px;
+			width: 50vw;
+		}
+		.agendastyle{
+			display: flex;
+			justify-content: flex-start;
+			flex-direction: row;
+			gap: 20px;
+			border: 1px solid #d92323;
+    		margin: 10px;
+		}
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<h3>Mi agenda</h3>
+{% csrf_token %}
+<div class="formulario">
+	<input type="text" placeholder="Escribe el nombre" id="nom" autocomplete="off">
+	<input type="text" placeholder="Escribe el email" id="eml" autocomplete="off">
+	<input type="text" placeholder="Escribe el telefono" id="tlf" autocomplete="off">
+	<input type="button" value="Guardar" class="btngo" >
+</div>
+<div>
+	{% for persona in object_list %}
+	<div class="agendastyle">
+		<p>{{ persona.nombre|title }}</p>
+		<p>{{ persona.email }}</p>
+		<p>{{ persona.phone }}</p>
+	</div>
+	{% endfor %}	
+</div>
+<script type="text/javascript">
+$(".btngo").click(function(){
+	var datafr = {nm: document.getElementById('nom').value, em: document.getElementById('eml').value, ph: document.getElementById('tlf').value}
+	console.log(datafr)
+	$.post("register/person/", {datajson: JSON.stringify(datafr)}).done(function(data){
+		location.reload();
+	})
+})
+
+</script>
+</body>
+</html>
